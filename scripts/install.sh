@@ -58,8 +58,8 @@ echo "     (компиляция ядра Valve, если нет бинарно�
 echo ""
 
 nixos-install --flake .#dk --no-root-passwd \
-  --option substituters "https://cache.nixos.org https://nyx.chaotic.cx" \
-  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nyx.chaotic.cx-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
+  --option substituters "https://cache.nixos.org https://nyx-cache.chaotic.cx" \
+  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════╗"
