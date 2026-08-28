@@ -35,6 +35,15 @@
       # Раскомментируйте для управления через HM:
       # xdg.configFile."hypr/hyprland.conf".source = ../../desktop/hyprland/hyprland.conf;
 
+      # ── Ассоциации файлов (MIME) ───────────────────────────────
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "application/vnd.appimage" = [ "it.mijorus.gearlever.desktop" ];
+          "application/x-executable" = [ "it.mijorus.gearlever.desktop" ];
+        };
+      };
+
       # ── Git ────────────────────────────────────────────────────
       programs.git = {
         enable = true;
