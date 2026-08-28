@@ -22,26 +22,8 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  # ── Файловые системы ───────────────────────────────────────────
-  # ВНИМАНИЕ: замените UUID-ы на свои после разметки диска!
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX";
-    fsType = "btrfs";
-    options = [ "subvol=@" "compress=zstd" "noatime" ];
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/XXXX-XXXX";
-    fsType = "vfat";
-  };
-
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX";
-    fsType = "btrfs";
-    options = [ "subvol=@home" "compress=zstd" "noatime" ];
-  };
-
-  swapDevices = [ ];
+  # ВНИМАНИЕ: Файловые системы управляются через файл disko.nix!
+  # Определение файловых систем удалено отсюда во избежание конфликтов сборки.
 
   # ── CPU / GPU ──────────────────────────────────────────────────
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
