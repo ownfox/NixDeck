@@ -61,13 +61,10 @@
         ./hosts/dk/disko.nix
 
         # Модули по компонентам
-        ./modules/hardware
         ./modules/gaming
         ./modules/desktop/hyprland
         ./modules/desktop/steam-input
         ./modules/networking
-        ./modules/audio
-        ./modules/power
         ./modules/packages
         ./modules/users
       ];
