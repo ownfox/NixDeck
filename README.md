@@ -1,145 +1,109 @@
-# 🎮 NixOS on Steam Deck OLED
+# 🎮 NixOS на Steam Deck OLED: Пошаговое руководство
 
-> Декларативная конфигурация NixOS для Steam Deck OLED на базе **Jovian-NixOS** с **Hyprland** + **Hyprgrass** + **Chaotic-Nyx**.
+Добро пожаловать! Это готовая конфигурация NixOS для вашего Steam Deck OLED, созданная на основе ваших идей. Она объединяет официальный игровой режим (SteamOS/Gamescope) и энергоэффективный рабочий стол (Hyprland) с поддержкой сенсорных жестов.
 
-Конфигурация воспроизводит опыт Bazzite/SteamOS (игровой режим, Gamescope, Steam UI),
-но с полным контролем через Nix Flakes и энергоэффективной средой рабочего стола Hyprland.
+Так как файлы сейчас находятся только на вашем компьютере (Windows), ниже описан **пошаговый алгоритм**, как перенести эту систему на ваш Steam Deck и начать ей пользоваться.
 
-## 📐 Архитектура
+---
 
-```
-Игровой режим (Gamescope + Steam UI)
-        ↕ кнопка "Перейти на рабочий стол"
-Режим рабочего стола (Hyprland + wvkbd + Steam Input)
-        ↕
-Jovian-NixOS (ядро Valve, драйверы, контроллеры)
-        ↕
-NixOS (Nix Flakes, декларативная конфигурация)
-        ↕
-Chaotic-Nyx (бинарный кэш — готовое ядро Valve)
-```
+## 🛠️ Шаг 1: Перенос конфигурации в GitHub (На вашем ПК)
 
-## 📁 Структура проекта
+Чтобы Steam Deck смог скачать эти настройки при установке, их нужно загрузить в ваш аккаунт GitHub.
 
-```
-Steam_nix/
-├── flake.nix                          # 🏗️  Главный entry point — все inputs и outputs
-├── flake.lock                         # 🔒 Зафиксированные версии (генерируется авто)
-├── README.md                          # 📖 Документация
-│
-├── hosts/
-│   └── deck/
-│       ├── configuration.nix          # ⚙️  Основная конфигурация хоста
-│       ├── hardware-configuration.nix # 🔧 Аппаратная конфигурация (nixos-generate-config)
-│       └── disko.nix                  # 💾 Декларативная разметка NVMe (Btrfs)
-│
-├── modules/
-│   ├── hardware/
-│   │   └── default.nix                # 🖥️  GPU, Vulkan, Bluetooth, сенсоры
-│   ├── gaming/
-│   │   └── default.nix                # 🎮 Steam, GameMode, ProtonUp, MangoHud
-│   ├── desktop/
-│   │   ├── hyprland/
-│   │   │   ├── default.nix            # 🪟 Hyprland NixOS-модуль
-│   │   │   └── hyprland.conf          # 📝 Конфиг Hyprland (OLED-оптимизирован)
-│   │   └── steam-input/
-│   │       └── default.nix            # 🕹️  Steam Input + радиальные меню
-│   ├── networking/
-│   │   └── default.nix                # 🌐 Wi-Fi, Bluetooth, Firewall, SSH
-│   ├── audio/
-│   │   └── default.nix                # 🔊 PipeWire (низкая задержка)
-│   ├── power/
-│   │   └── default.nix                # 🔋 TDP, энергосбережение, ryzenadj
-│   ├── packages/
-│   │   └── default.nix                # 📦 Системные пакеты, шрифты, Nix GC
-│   └── users/
-│       └── default.nix                # 👤 Пользователи, Home Manager, dotfiles
-│
-├── configs/
-│   └── waybar/
-│       ├── config.jsonc               # 📊 Waybar конфигурация
-│       └── style.css                  # 🎨 OLED-оптимизированная тема
-│
-└── scripts/
-    ├── install.sh                     # 🚀 Скрипт первоначальной установки
-    └── rebuild.sh                     # 🔄 Обновление / откат системы
-```
+1. Зарегистрируйтесь на [GitHub](https://github.com/), если у вас еще нет аккаунта.
+2. Создайте новый репозиторий:
+   - Нажмите `+` в правом верхнем углу GitHub -> **New repository**.
+   - Назовите его, например, `steamdeck-nixos`.
+   - Сделайте его **Public** (Публичным).
+   - **НЕ** ставьте галочки "Add a README file" или другие, просто нажмите **Create repository**.
+3. Откройте командную строку (PowerShell или Git Bash) в папке с этим проектом (`e:\PRJKT\Steam_nix`) и выполните команды, которые вам покажет GitHub. Обычно они выглядят так:
+   ```bash
+   git remote add origin https://github.com/ВАШ_НИК/steamdeck-nixos.git
+   git branch -M main
+   git push -u origin main
+   ```
+   *Теперь весь код хранится в безопасности на GitHub!*
 
-## 🔗 Ключевые зависимости
+---
 
-| Репозиторий | Назначение |
-|---|---|
-| [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS) | Ядро Valve, драйверы, Gamescope, Steam UI |
-| [Hyprland](https://github.com/hyprwm/Hyprland) | Тайлинговый Wayland-композитор |
-| [Hyprgrass](https://github.com/horriblename/hyprgrass) | Плагин жестов сенсорного экрана |
-| [Chaotic-Nyx](https://github.com/chaotic-cx/nyx) | Бинарный кэш (готовое ядро, mesa_git) |
-| [SteamNix](https://github.com/SteamNix/SteamNix) | Готовый шаблон "SteamOS на NixOS" |
+## 💿 Шаг 2: Создание установочной флешки (На вашем ПК)
 
-## 🚀 Быстрый старт
+Вам понадобится флешка (минимум на 4 ГБ), клавиатура и, желательно, USB-хаб для подключения к Steam Deck.
 
-### 1. Подготовка USB
-Скачайте NixOS Minimal ISO → запишите на USB → загрузитесь (Volume Down + Power).
+1. Скачайте образ **NixOS Minimal ISO** с [официального сайта NixOS](https://nixos.org/download) (выберите 64-bit Intel/AMD).
+2. Скачайте программу [Rufus](https://rufus.ie/ru/) или [BalenaEtcher](https://etcher.balena.io/).
+3. Запишите скачанный ISO-образ NixOS на вашу флешку.
+   > **Внимание:** Все данные на флешке будут удалены!
 
-### 2. Установка
-```bash
-# Подключитесь к Wi-Fi
-iwctl station wlan0 connect <SSID>
+---
 
-# Клонируйте конфигурацию
-git clone <this-repo> /tmp/nixos-deck
-cd /tmp/nixos-deck
+## 🚀 Шаг 3: Установка на Steam Deck
 
-# Запустите установку
-sudo bash scripts/install.sh
-```
+1. **Запуск с флешки:**
+   - Выключите Steam Deck.
+   - Вставьте установочную флешку (через Type-C хаб, туда же подключите клавиатуру).
+   - Зажмите кнопку **Громкость Вниз (-)** и нажмите **кнопку включения**.
+   - В появившемся меню (Boot Manager) выберите вашу USB-флешку.
+2. **Подключение к Wi-Fi:**
+   Когда NixOS загрузится (появится командная строка), введите команду:
+   ```bash
+   nmtui
+   ```
+   Откроется простое меню. Выберите "Activate a connection", найдите ваш Wi-Fi и введите пароль.
+3. **Скачивание ваших настроек:**
+   Скачайте репозиторий, который вы создали на Шаге 1:
+   ```bash
+   # Замените ссылку на ВАШ репозиторий!
+   git clone https://github.com/ВАШ_НИК/steamdeck-nixos.git /tmp/deck-nix
+   cd /tmp/deck-nix
+   ```
+4. **Запуск установки:**
+   Теперь просто запустите скрипт, который всё сделает за вас:
+   ```bash
+   sudo bash scripts/install.sh
+   ```
+   > **Важно:** Скрипт попросит подтверждение на полное форматирование диска Steam Deck (данные SteamOS будут удалены). Соглашайтесь. Установка может занять некоторое время.
+5. **Финальный штрих:**
+   В конце установки система попросит задать пароль для пользователя `deck`. Сделайте это, введя команду из подсказки на экране, а затем перезагрузитесь: `reboot`.
 
-### 3. Повседневное использование
-```bash
-# Применить изменения
-./scripts/rebuild.sh switch
+---
 
-# Обновить все зависимости
-./scripts/rebuild.sh update
+## 💻 Шаг 4: Как этим пользоваться каждый день
 
-# Откатиться к предыдущей конфигурации
-./scripts/rebuild.sh rollback
+Поздравляем! Ваш Steam Deck загрузится в привычный игровой режим (Gamescope).
 
-# Очистить старые поколения
-./scripts/rebuild.sh gc
-```
+### 🔄 Переход на рабочий стол (Hyprland)
+1. В игровом режиме нажмите кнопку `STEAM` -> Выключение -> **Переход на рабочий стол**.
+2. Загрузится Hyprland. Фон будет строго чёрным — это не ошибка, это **оптимизация OLED экрана** для экономии батареи (чёрные пиксели выключены).
 
-## 🎯 Ключевые решения из исследования
+### 🤌 Управление без клавиатуры (Жесты и Геймпад)
+- **Сенсорный экран:** Свайп тремя пальцами влево/вправо переключает рабочие столы (спасибо плагину *Hyprgrass*).
+- **Вызов виртуальной клавиатуры:** Нажмите **R4** (правый верхний лепесток на задней панели). Это настроено через Steam Input.
+- **Модификаторы:** Левый трекпад настроен как радиальное меню для кнопок Super, Alt, Ctrl, Shift.
+- **Лаунчер программ:** Нажмите крестовину (D-Pad).
 
-### OLED-оптимизации
-- **Чёрный фон** (`#000000`) — выключенные пиксели = 0 энергопотребления
-- **VFR** (Variable Frame Rate) — не рендерить кадры когда ничего не меняется
-- **Blur отключен** — экономия GPU и батареи
-- **Контрастная тема** — чёрный/белый для максимальной эффективности OLED
+### 🛠️ Как вносить изменения в систему?
+В NixOS всё управление системой происходит через файлы, которые лежат в этой папке.
 
-### Управление без клавиатуры
-- **Steam Input** — радиальные меню на трекпадах (до 16 кнопок каждый)
-- **Hyprgrass** — свайпы и щипки на сенсорном экране
-- **wvkbd** — виртуальная клавиатура для тайлинговых WM
-- **rofi** — лаунчер приложений через D-Pad
+1. Если вам нужна новая программа, откройте файл `modules/packages/default.nix` и добавьте её в список `environment.systemPackages`.
+2. Сохраните файл.
+3. Чтобы применить изменения, откройте терминал (Foot) и выполните:
+   ```bash
+   cd путь_к_папке_с_конфигом
+   ./scripts/rebuild.sh switch
+   ```
+   Система сама скачает программу и настроит всё необходимое.
 
-### Энергосбережение
-- **ryzenadj** — автоматическое ограничение TDP до 8W в desktop-режиме
-- **Jovian udev-правила** — управление TDP/GPU/яркостью на уровне пользователя
-- **SimpleDeckyTDP** — плагин Decky для управления TDP из игрового режима
+### 🔋 Энергосбережение (Уже работает)
+Система настроена на автоматическое ограничение мощности процессора (TDP) в режиме рабочего стола до 8W (через модуль `power/default.nix`). В играх система автоматически возвращает полную мощность.
 
-## ⚠️ Важные замечания
+---
 
-1. **Первая сборка** может занять часы без Chaotic-Nyx (компиляция ядра Valve)
-2. **UUID-ы** в `hardware-configuration.nix` — заглушки, замените после `nixos-generate-config`
-3. **Пользователь** — замените `deck` на своё имя в `configuration.nix` и `users/default.nix`
-4. **Часовой пояс** — замените `Europe/Berlin` в `configuration.nix`
-5. **Git** — замените имя и email в `users/default.nix`
+## 📁 Краткая справка по файлам
 
-## 📚 Источники и вдохновение
+- `flake.nix` — Сердце системы (подключает Jovian, Hyprland и т.д.).
+- `hosts/deck/` — Настройки железа и разметка диска.
+- `modules/desktop/hyprland/hyprland.conf` — Внешний вид рабочего стола и горячие клавиши.
+- `scripts/rebuild.sh` — Ваш главный помощник для применения обновлений.
 
-- [Chris Titus — Steamdeck as a Desktop](https://youtu.be/ttOs5iWgNzk) — гибридный подход SteamOS + Nix
-- [Jovian-NixOS](https://github.com/Jovian-Experiments/Jovian-NixOS) — официальный фундамент
-- [SteamNix](https://github.com/SteamNix/SteamNix) — готовый шаблон
-- [nomadics9/NixOS-Flake](https://github.com/nomadics9/NixOS-Flake) — Hyprland + Waybar на портативной консоли
-- [heywoodlh/nixos-configs](https://github.com/heywoodlh/nixos-configs) — GNOME на Jovian-NixOS
-- [Stream5710/deck-flake](https://github.com/Stream5710/deck-flake) — минималистичный гибрид SteamOS + Nix
+*Наслаждайтесь вашим идеальным гибридом консоли и мощного ПК на базе Linux!*
