@@ -64,6 +64,7 @@
     kdePackages.kcalc         # Калькулятор
     webapp-manager            # Менеджер веб-приложений (как в Bazzite/Mint)
     gearlever                 # Менеджер AppImage файлов (добавляет ярлыки в меню)
+    sgdboop                   # SteamGridDB (менеджер обложек для Steam)
     telegram-desktop          # Мессенджер Telegram
   ];
 
