@@ -5,7 +5,7 @@
 
 {
   # ── Отключение PulseAudio (заменяем PipeWire) ──────────────────
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   # ── RealtimeKit (приоритет звуковых потоков) ────────────────────
   security.rtkit.enable = true;

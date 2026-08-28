@@ -38,8 +38,12 @@
       # ── Git ────────────────────────────────────────────────────
       programs.git = {
         enable = true;
-        userName = "Your Name";        # ← замените
-        userEmail = "you@example.com"; # ← замените
+        settings = {
+          user = {
+            name = "Your Name";
+            email = "you@example.com";
+          };
+        };
       };
 
       # ── Starship prompt ────────────────────────────────────────
