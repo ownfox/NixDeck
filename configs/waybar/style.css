@@ -1,0 +1,77 @@
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  Waybar CSS — OLED-оптимизированная тема                        ║
+   ║  Чёрный фон = выключенные пиксели на OLED                      ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
+* {
+    font-family: "JetBrains Mono", "Noto Sans", sans-serif;
+    font-size: 12px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(0, 0, 0, 0.85);
+    color: #e0e0e0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ── Модули ─────────────────────────────────────────────────────── */
+
+#workspaces button {
+    padding: 0 6px;
+    color: #888;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    margin: 2px;
+}
+
+#workspaces button.active {
+    color: #ffffff;
+    background: #1e66f5;
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#clock,
+#battery,
+#network,
+#bluetooth,
+#pulseaudio,
+#tray {
+    padding: 0 8px;
+    color: #e0e0e0;
+}
+
+/* ── Батарея ─────────────────────────────────────────────────────── */
+
+#battery.warning {
+    color: #fab387;
+}
+
+#battery.critical {
+    color: #f38ba8;
+    animation: blink 1s ease-in-out infinite;
+}
+
+#battery.charging {
+    color: #a6e3a1;
+}
+
+@keyframes blink {
+    50% { opacity: 0.5; }
+}
+
+/* ── Сеть ────────────────────────────────────────────────────────── */
+
+#network.disconnected {
+    color: #f38ba8;
+}
+
+/* ── Звук ────────────────────────────────────────────────────────── */
+
+#pulseaudio.muted {
+    color: #6c7086;
+}
