@@ -57,7 +57,9 @@ echo "  ⏳ Первая сборка может занять несколько
 echo "     (компиляция ядра Valve, если нет бинарного кэша Chaotic-Nyx)"
 echo ""
 
-nixos-install --flake .#dk --no-root-passwd
+nixos-install --flake .#dk --no-root-passwd \
+  --option substituters "https://cache.nixos.org https://nyx.chaotic.cx" \
+  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nyx.chaotic.cx-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════╗"
