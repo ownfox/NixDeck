@@ -41,10 +41,12 @@
   # ── Suspend / Sleep ────────────────────────────────────────────
   services.logind = {
     lidSwitch = "suspend";
-    extraConfig = ''
-      HandlePowerKey=suspend
-      IdleAction=suspend
-      IdleActionSec=300
-    '';
+    settings = {
+      Login = {
+        HandlePowerKey = "suspend";
+        IdleAction = "suspend";
+        IdleActionSec = "300";
+      };
+    };
   };
 }
