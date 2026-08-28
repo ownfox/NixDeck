@@ -17,7 +17,7 @@
   # Не перехватывает фокус, автоматически сдвигает окна
   environment.systemPackages = with pkgs; [
     wvkbd                          # виртуальная клавиатура
-    rofi-wayland                   # лаунчер (D-Pad friendly)
+    rofi                           # лаунчер (D-Pad friendly)
     waybar                         # статус-бар
     mako                           # уведомления (Wayland)
     wl-clipboard                   # буфер обмена
