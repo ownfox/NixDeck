@@ -28,6 +28,9 @@
 
   # ── Разрешение несвободного ПО ─────────────────────────────────
   nixpkgs.config.allowUnfree = true;
+  # Разрешить переименованные пакеты (например noto-fonts-emoji → noto-fonts-color-emoji)
+  # Нужно из-за зависимостей Jovian-NixOS, которые используют старые имена
+  nixpkgs.config.allowAliases = true;
 
   # ── Загрузчик ──────────────────────────────────────────────────
   boot.loader.systemd-boot.enable = true;
