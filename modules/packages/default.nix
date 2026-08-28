@@ -48,10 +48,8 @@
     mangohud                  # Оверлей производительности (FPS)
     goverlay                  # Настройка MangoHud
     protonup-qt               # Управление версиями GE-Proton
-    flatseal                  # Настройка прав Flatpak-приложений
     mission-center            # Красивый системный монитор
     qbittorrent               # Торрент-клиент
-    portproton                # Простой запуск Windows-игр (альтернатива Lutris)
     # ── Остальные Bazzite-пакеты (Гейминг, Медиа, Офис) ──────────
     heroic                    # Heroic Games Launcher (Epic, GOG, Amazon)
     lutris                    # Менеджер игр Linux/Windows
@@ -61,8 +59,6 @@
     kdePackages.gwenview      # Просмотрщик изображений
     kdePackages.kate          # Графический текстовый редактор
     kdePackages.kcalc         # Калькулятор
-    webapp-manager            # Менеджер веб-приложений (как в Bazzite/Mint)
-    gearlever                 # Менеджер AppImage файлов (добавляет ярлыки в меню)
     steam-rom-manager         # Менеджер ROM-ов для добавления эмуляторов и игр в Steam
     telegram-desktop          # Мессенджер Telegram
   ];
