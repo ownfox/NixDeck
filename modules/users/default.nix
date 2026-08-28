@@ -5,7 +5,7 @@
 
 {
   # ── Основной пользователь ──────────────────────────────────────
-  users.users.deck = {
+  users.users.jb = {
     isNormalUser = true;
     description = "Steam Deck User";
     extraGroups = [
@@ -27,7 +27,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
 
-    users.deck = { pkgs, ... }: {
+    users.jb = { pkgs, ... }: {
       home.stateVersion = "24.05";
 
       # ── Hyprland конфиг через Home Manager ─────────────────────

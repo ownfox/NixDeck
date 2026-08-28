@@ -15,7 +15,7 @@
   jovian.steam = {
     enable = true;
     autoStart = true;
-    user = "deck"; # ← замените на своё имя пользователя
+    user = "jb"; # ← замените на своё имя пользователя
     desktopSession = "hyprland"; # переход в Desktop Mode → Hyprland
   };
 

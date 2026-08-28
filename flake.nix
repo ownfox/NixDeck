@@ -38,7 +38,7 @@
 
   outputs = { self, nixpkgs, jovian, hyprland, hyprgrass, chaotic, home-manager, disko, ... }@inputs: {
 
-    nixosConfigurations.deck = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.dk = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
 
@@ -56,9 +56,9 @@
         home-manager.nixosModules.home-manager
 
         # Наши конфигурационные файлы
-        ./hosts/deck/hardware-configuration.nix
-        ./hosts/deck/configuration.nix
-        ./hosts/deck/disko.nix
+        ./hosts/dk/hardware-configuration.nix
+        ./hosts/dk/configuration.nix
+        ./hosts/dk/disko.nix
 
         # Модули по компонентам
         ./modules/hardware

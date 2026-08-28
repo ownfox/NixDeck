@@ -11,25 +11,25 @@ ACTION="${1:-switch}"
 case "$ACTION" in
     switch)
         echo "🔄 Применение конфигурации и переключение..."
-        sudo nixos-rebuild switch --flake .#deck
+        sudo nixos-rebuild switch --flake .#dk
         ;;
     boot)
         echo "🔄 Применение конфигурации (после перезагрузки)..."
-        sudo nixos-rebuild boot --flake .#deck
+        sudo nixos-rebuild boot --flake .#dk
         ;;
     test)
         echo "🧪 Тестирование конфигурации (без постоянного применения)..."
-        sudo nixos-rebuild test --flake .#deck
+        sudo nixos-rebuild test --flake .#dk
         ;;
     build)
         echo "🔨 Только сборка (без применения)..."
-        nixos-rebuild build --flake .#deck
+        nixos-rebuild build --flake .#dk
         ;;
     update)
         echo "📦 Обновление всех inputs (nixpkgs, jovian, hyprland...)..."
         nix flake update
         echo "🔄 Применение обновлений..."
-        sudo nixos-rebuild switch --flake .#deck
+        sudo nixos-rebuild switch --flake .#dk
         ;;
     rollback)
         echo "⏪ Откат к предыдущему поколению..."

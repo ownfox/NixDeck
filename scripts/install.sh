@@ -42,13 +42,13 @@ if [ "$confirm" != "yes" ]; then
 fi
 
 # Разметка через disko
-nix run github:nix-community/disko -- --mode disko ./hosts/deck/disko.nix
+nix run github:nix-community/disko -- --mode disko ./hosts/dk/disko.nix
 
 # ── Шаг 4: Генерация аппаратной конфигурации ─────────────────────
 echo "🔧 Шаг 4: Генерация hardware-configuration.nix..."
 nixos-generate-config --root /mnt --no-filesystems
 # Скопировать сгенерированный файл
-cp /mnt/etc/nixos/hardware-configuration.nix ./hosts/deck/hardware-configuration.nix
+cp /mnt/etc/nixos/hardware-configuration.nix ./hosts/dk/hardware-configuration.nix
 echo "  ✅ hardware-configuration.nix обновлён"
 
 # ── Шаг 5: Установка NixOS ──────────────────────────────────────
@@ -57,13 +57,13 @@ echo "  ⏳ Первая сборка может занять несколько
 echo "     (компиляция ядра Valve, если нет бинарного кэша Chaotic-Nyx)"
 echo ""
 
-nixos-install --flake .#deck --no-root-passwd
+nixos-install --flake .#dk --no-root-passwd
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════╗"
 echo "║  ✅ Установка завершена!                                     ║"
 echo "║                                                              ║"
-echo "║  1. Установите пароль: nixos-enter --root /mnt -c 'passwd deck'║"
+echo "║  1. Установите пароль: nixos-enter --root /mnt -c 'passwd jb'  ║"
 echo "║  2. Перезагрузитесь: reboot                                  ║"
 echo "║  3. Steam Deck загрузится в игровой режим (Gamescope)        ║"
 echo "║  4. Кнопка 'Перейти на рабочий стол' → Hyprland             ║"

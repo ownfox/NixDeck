@@ -5,7 +5,7 @@
 
 {
   # ── Hostname ───────────────────────────────────────────────────
-  networking.hostName = "deck";
+  networking.hostName = "dk";
 
   # ── NetworkManager (Wi-Fi) ─────────────────────────────────────
   networking.networkmanager.enable = true;
