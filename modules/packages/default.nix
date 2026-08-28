@@ -1,23 +1,19 @@
 # ╔══════════════════════════════════════════════════════════════════╗
-# ║  Модуль: Packages — системные пакеты и утилиты                  ║
+# ║  Модуль: Packages — МИНИМАЛЬНАЯ СБОРКА                          ║
+# ║  Только базовые утилиты. Остальное добавим после успешной       ║
+# ║  загрузки системы.                                              ║
 # ╚══════════════════════════════════════════════════════════════════╝
 { config, pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
     # ── Терминал и оболочка ──────────────────────────────────────
-    foot              # Wayland-нативный терминал (лёгкий, быстрый)
+    foot              # Wayland-нативный терминал
     fish              # удобная оболочка
-    starship          # кроссплатформенный промпт
-    tmux              # мультиплексор
+    starship          # промпт
 
     # ── Файловый менеджер ────────────────────────────────────────
-    yazi              # терминальный файл-менеджер
-    nnn               # минималистичный альтернативный
-
-    # ── Редакторы ────────────────────────────────────────────────
-    neovim            # основной редактор
-    helix             # модальный редактор (альтернатива)
+    kdePackages.dolphin       # GUI файл-менеджер (как в SteamOS)
 
     # ── Системные утилиты ────────────────────────────────────────
     btop              # мониторинг системы
@@ -26,73 +22,33 @@
     curl
     git
     unzip
-    p7zip
 
-    # ── Браузеры ─────────────────────────────────────────────────
+    # ── Браузер ──────────────────────────────────────────────────
     firefox           # Wayland-нативный
-    google-chrome     # Google Chrome
 
-    # ── Инструменты для разработки ───────────────────────────────
-    gcc
-    python3
-    nodejs
-    # ── Контейнеры и эмуляция ────────────────────────────────────
-    distrobox         # Запуск любых дистрибутивов Linux в терминале
-    # ── Утилиты в стиле Bazzite (GUI и Инструменты) ──────────────
-    kdePackages.dolphin       # Файловый менеджер (как в SteamOS)
-    kdePackages.ark           # Архиватор
+    # ── Рабочий стол (необходимый минимум) ───────────────────────
     kdePackages.polkit-kde-agent-1 # Окно ввода пароля (polkit)
-    networkmanagerapplet      # Иконка Wi-Fi в трее (nm-applet)
+    networkmanagerapplet      # Иконка Wi-Fi в трее
     blueman                   # Иконка Bluetooth в трее
-    pavucontrol               # Удобное управление звуком (микшер)
-    mangohud                  # Оверлей производительности (FPS)
-    goverlay                  # Настройка MangoHud
-    protonup-qt               # Управление версиями GE-Proton
-    mission-center            # Красивый системный монитор
-    qbittorrent               # Торрент-клиент
-    # ── Остальные Bazzite-пакеты (Гейминг, Медиа, Офис) ──────────
-    heroic                    # Heroic Games Launcher (Epic, GOG, Amazon)
-    lutris                    # Менеджер игр Linux/Windows
-    bottles                   # Изолированные префиксы Wine (как в Bazzite)
-    vesktop                   # Клиент Discord с поддержкой демонстрации экрана на Wayland
-    vlc                       # Универсальный видеоплеер
-    kdePackages.gwenview      # Просмотрщик изображений
-    kdePackages.kate          # Графический текстовый редактор
-    kdePackages.kcalc         # Калькулятор
-    steam-rom-manager         # Менеджер ROM-ов для добавления эмуляторов и игр в Steam
-    telegram-desktop          # Мессенджер Telegram
+    pavucontrol               # Управление звуком
   ];
 
-  # ── Настройка Podman (нужно для Distrobox) ─────────────────────
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-  };
+  # ── Flatpak (для установки остальных программ после загрузки) ───
+  services.flatpak.enable = true;
 
-  # ── Настройка Waydroid (Запуск Android-приложений как в Bazzite)
-  virtualisation.waydroid.enable = true;
-
-  # ── Настройка KDE Connect (Связь со смартфоном) ────────────────
-  programs.kdeconnect.enable = true;
-
-  # ── Настройка Input Remapper (Глобальное переназначение клавиш) ─
-  services.input-remapper.enable = true;
-
-
-  # ── Шрифты ─────────────────────────────────────────────────────
+  # ── Шрифты (только проверенные) ────────────────────────────────
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-color-emoji
     fira-code
-    fira-code-nerdfont
     jetbrains-mono
   ];
 
   # ── Настройки Nix ──────────────────────────────────────────────
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    auto-optimise-store = true;   # дедупликация в /nix/store
+    auto-optimise-store = true;
   };
 
   # ── Сборка мусора ──────────────────────────────────────────────
