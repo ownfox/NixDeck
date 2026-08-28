@@ -13,12 +13,12 @@
 1. Зарегистрируйтесь на [GitHub](https://github.com/), если у вас еще нет аккаунта.
 2. Создайте новый репозиторий:
    - Нажмите `+` в правом верхнем углу GitHub -> **New repository**.
-   - Назовите его, например, `steamdeck-nixos`.
+   - Назовите его, например, `NixDeck`.
    - Сделайте его **Public** (Публичным) или **Private** (Приватным), если хотите скрыть свои настройки.
    - **НЕ** ставьте галочки "Add a README file" или другие, просто нажмите **Create repository**.
 3. Откройте командную строку (PowerShell или Git Bash) в папке с этим проектом (`e:\PRJKT\Steam_nix`) и выполните команды, которые вам покажет GitHub. Обычно они выглядят так:
    ```bash
-   git remote add origin https://github.com/ВАШ_НИК/steamdeck-nixos.git
+   git remote add origin https://github.com/ownfox/NixDeck.git
    git branch -M main
    git push -u origin main
    ```
@@ -55,8 +55,8 @@
 3. **Скачивание ваших настроек:**
    Скачайте репозиторий, который вы создали на Шаге 1:
    ```bash
-   # Замените ссылку на ВАШ репозиторий!
-   git clone https://github.com/ВАШ_НИК/steamdeck-nixos.git /tmp/deck-nix
+   # Клонируем репозиторий
+   git clone https://github.com/ownfox/NixDeck.git /tmp/deck-nix
    cd /tmp/deck-nix
    ```
    > **🔒 Если вы сделали репозиторий приватным:** При клонировании GitHub запросит логин и пароль. В качестве логина введите ваш никнейм, а вместо пароля нужно использовать **Personal Access Token** (токен доступа). 
@@ -100,6 +100,26 @@
 
 ### 🔋 Энергосбережение (Уже работает)
 Система настроена на автоматическое ограничение мощности процессора (TDP) в режиме рабочего стола до 8W (через модуль `power/default.nix`). В играх система автоматически возвращает полную мощность.
+
+---
+
+### 📱 Настройка Android (Waydroid) с ARM, MicroG и Magisk
+NixOS поддерживает запуск Android-приложений (как в Bazzite). Для запуска ARM-игр (libhoudini), YouTube ReVanced (MicroG) и получения Root-прав (Magisk) сделайте следующее после установки системы:
+
+1. **Инициализация чистого Android:**
+   Откройте терминал и выполните:
+   ```bash
+   sudo waydroid init -s VANILLA -c https://ota.waydro.id/system -v https://ota.waydro.id/vendor
+   sudo systemctl start waydroid-container
+   ```
+2. **Установка скрипта расширений:**
+   Запустите официальный скрипт от casualsnek прямо из репозитория Nix:
+   ```bash
+   nix shell github:nix-community/NUR#repos.ataraxiasjel.waydroid-script -c sudo waydroid-script
+   ```
+   В появившемся меню выберите: `Install libhoudini`, `Install Magisk` (выберите версию Delta/Kitsune) и `Install MicroG`.
+3. **Подмена подписи (Signature Spoofing):**
+   Откройте приложение Magisk, включите Zygisk, установите модуль LSPosed (Zygisk), перезагрузите контейнер (`sudo waydroid session stop`), и затем установите модуль FakeGApps в LSPosed.
 
 ---
 
