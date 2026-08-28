@@ -38,15 +38,5 @@
   # На OLED-экране чёрные пиксели = 0 энергопотребления
   # Яркость регулируется через brightnessctl (в модуле desktop)
 
-  # ── Suspend / Sleep ────────────────────────────────────────────
-  services.logind = {
-    lidSwitch = "suspend";
-    settings = {
-      Login = {
-        HandlePowerKey = "suspend";
-        IdleAction = "suspend";
-        IdleActionSec = "300";
-      };
-    };
-  };
+  # Suspend / Sleep теперь управляется через Jovian-NixOS (Steam UI)
 }
