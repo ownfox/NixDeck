@@ -53,11 +53,13 @@ echo "  ✅ hardware-configuration.nix обновлён"
 
 # ── Шаг 5: Установка NixOS ──────────────────────────────────────
 echo "🚀 Шаг 5: Установка NixOS..."
-echo "  ⏳ Первая сборка может занять несколько часов"
-echo "     (компиляция ядра Valve, если нет бинарного кэша Chaotic-Nyx)"
+echo "  ⏳ Используем диск для временных файлов, чтобы избежать ошибки Out of Memory"
 echo ""
 
-nixos-install --flake .#dk --no-root-passwd \
+mkdir -p /mnt/tmp
+export TMPDIR=/mnt/tmp
+
+nixos-install --flake .#dk --no-root-passwd --cores 2 \
   --option substituters "https://cache.nixos.org https://nyx-cache.chaotic.cx" \
   --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
 
