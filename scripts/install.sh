@@ -60,8 +60,8 @@ mkdir -p /mnt/tmp
 export TMPDIR=/mnt/tmp
 
 nixos-install --flake .#dk --no-root-passwd --cores 2 \
-  --option substituters "https://cache.nixos.org https://nyx-cache.chaotic.cx" \
-  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
+  --option substituters "https://cache.nixos.org https://nyx-cache.chaotic.cx https://jovian.cachix.org" \
+  --option trusted-public-keys "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk= jovian.cachix.org-1:8Vq4Txku6VZIRhYrHYki3Ab9XHJRoWmdYqMqj4rB/Uc="
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════════╗"
