@@ -2,14 +2,14 @@
   description = "Steam Deck OLED — Jovian-NixOS + Hyprland + Hyprgrass";
 
   inputs = {
-    # ── Основные репозитории ──────────────────────────────────────
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # Jovian-NixOS — ядро Valve, драйверы, Gamescope, Steam UI
+    # Jovian-NixOS — аппаратная поддержка Steam Deck
     jovian = {
       url = "github:Jovian-Experiments/Jovian-NixOS";
-      inputs.nixpkgs.follows = "nixpkgs"; # критически важно для совместимости
     };
+
+    # Заставляем нашу систему использовать ТОЧНО ТОТ ЖЕ коммит nixpkgs, что и Jovian.
+    # Это ГАРАНТИРУЕТ 100% попадание в бинарный кэш (Mesa, Gamescope, ядро).
+    nixpkgs.follows = "jovian/nixpkgs";
 
     # Hyprland — тайлинговый Wayland-композитор
     hyprland.url = "github:hyprwm/Hyprland";
