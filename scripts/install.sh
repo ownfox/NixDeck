@@ -32,17 +32,22 @@ fi
 echo "⚙️  Шаг 2: Включение Nix Flakes..."
 export NIX_CONFIG="experimental-features = nix-command flakes"
 
-# ── Шаг 3: Разметка диска через disko ────────────────────────────
-echo "💾 Шаг 3: Разметка диска..."
-echo "  ВНИМАНИЕ: Все данные на NVMe будут СТЁРТЫ!"
-read -p "Продолжить? (yes для подтверждения): " confirm
-if [ "$confirm" != "yes" ]; then
+# ── Шаг 3: Подготовка диска через disko ────────────────────────
+echo "💾 Шаг 3: Подготовка диска..."
+echo "  [1] Форматировать диск с нуля (ВНИМАНИЕ: Все данные будут СТЁРТЫ!)"
+echo "  [2] Продолжить прерванную установку (просто примонтировать диск)"
+read -p "Выберите действие (1 или 2): " disk_action
+
+if [ "$disk_action" == "1" ]; then
+    echo "🚨 Выбрано ФОРМАТИРОВАНИЕ. Размечаем диск..."
+    nix run github:nix-community/disko -- --mode disko ./hosts/dk/disko.nix
+elif [ "$disk_action" == "2" ]; then
+    echo "🔄 Выбрано ПРОДОЛЖЕНИЕ. Монтируем существующие разделы..."
+    nix run github:nix-community/disko -- --mode mount ./hosts/dk/disko.nix
+else
     echo "Отменено."
     exit 1
 fi
-
-# Разметка через disko
-nix run github:nix-community/disko -- --mode disko ./hosts/dk/disko.nix
 
 # ── Шаг 4: Генерация аппаратной конфигурации ─────────────────────
 echo "🔧 Шаг 4: Генерация hardware-configuration.nix..."
