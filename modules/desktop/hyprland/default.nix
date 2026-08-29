@@ -28,7 +28,7 @@
   # ── XDG Portal (для корректных диалогов и screen share) ────────
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # ── Переменные окружения для Wayland ───────────────────────────
