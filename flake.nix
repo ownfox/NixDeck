@@ -1,27 +1,9 @@
 {
-  description = "Steam Deck OLED — Jovian-NixOS + Hyprland + Hyprgrass";
+  description = "Steam Deck OLED — Standard NixOS + Hyprland";
 
   inputs = {
-    # Jovian-NixOS — аппаратная поддержка Steam Deck
-    jovian = {
-      url = "github:Jovian-Experiments/Jovian-NixOS";
-    };
-
-    # Заставляем нашу систему использовать ТОЧНО ТОТ ЖЕ коммит nixpkgs, что и Jovian.
-    # Это ГАРАНТИРУЕТ 100% попадание в бинарный кэш (Mesa, Gamescope, ядро).
-    nixpkgs.follows = "jovian/nixpkgs";
-
-    # Hyprland — тайлинговый Wayland-композитор
-    hyprland.url = "github:hyprwm/Hyprland";
-
-    # Hyprgrass — плагин сенсорных жестов (свайпы, щипки, long press)
-    hyprgrass = {
-      url = "github:horriblename/hyprgrass";
-      inputs.hyprland.follows = "hyprland";
-    };
-
-    # Chaotic-Nyx — сторонний бинарный кэш (готовое ядро Valve и т.д.)
-    chaotic.url = "github:chaotic-cx/nyx";
+    # Используем стабильную/unstable ветку NixOS с официальным кэшем
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home Manager — декларативное управление dotfiles
     home-manager = {
@@ -36,19 +18,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, jovian, hyprland, hyprgrass, chaotic, home-manager, disko, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, disko, ... }@inputs: {
 
     nixosConfigurations.dk = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
 
       modules = [
-        # Бинарный кэш Chaotic-Nyx (скачиваем ядро вместо компиляции)
-        chaotic.nixosModules.default
-
-        # Jovian-NixOS — аппаратная поддержка Steam Deck
-        jovian.nixosModules.default
-
         # Disko — разметка NVMe
         disko.nixosModules.disko
 
@@ -61,6 +37,8 @@
         ./hosts/dk/disko.nix
 
         # Модули по компонентам
+        ./modules/hardware
+        ./modules/audio
         ./modules/gaming
         ./modules/desktop/hyprland
         ./modules/desktop/steam-input
